@@ -7,9 +7,8 @@ function App() {
   return (
     <>
 
-      <div className="canvas-container">
         <Experience />
-      </div>
+
     </>
   );
 }
