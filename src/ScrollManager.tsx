@@ -16,54 +16,54 @@ interface Properties {
 }
 
 
-export const ScrollManager = (props: Properties) => {
+export const ScrollManager = () => {
     
-    const {sections,setSectionNumber} = props
+    // const {sections,setSectionNumber} = props
 
-    function handleScroll(e: Event) {
-        e.preventDefault();
-    }
-    const scrolling: Scrolling = {
-        enabled: true,
-        events: "scroll,wheel,touchmove,pointermove".split(","),
-        prevent: (e: Event ) => e.preventDefault(),
-        disable() {
-        if (scrolling.enabled) {
-            scrolling.enabled = false;
-            window.addEventListener("scroll", gsap.ticker.tick, {passive: true});
-            scrolling.events.forEach((e, i) => (i ? document : window).addEventListener(e, handleScroll, {passive: false}));
-        }
-        },
-        enable() {
-        if (!scrolling.enabled) {
-            scrolling.enabled = true;
-            window.removeEventListener("scroll", gsap.ticker.tick);
-            scrolling.events.forEach((e, i) => (i ? document : window).removeEventListener(e, handleScroll));
-        }
-        }
-    };
+    // function handleScroll(e: Event) {
+    //     e.preventDefault();
+    // }
+    // const scrolling: Scrolling = {
+    //     enabled: true,
+    //     events: "scroll,wheel,touchmove,pointermove".split(","),
+    //     prevent: (e: Event ) => e.preventDefault(),
+    //     disable() {
+    //     if (scrolling.enabled) {
+    //         scrolling.enabled = false;
+    //         window.addEventListener("scroll", gsap.ticker.tick, {passive: true});
+    //         scrolling.events.forEach((e, i) => (i ? document : window).addEventListener(e, handleScroll, {passive: false}));
+    //     }
+    //     },
+    //     enable() {
+    //     if (!scrolling.enabled) {
+    //         scrolling.enabled = true;
+    //         window.removeEventListener("scroll", gsap.ticker.tick);
+    //         scrolling.events.forEach((e, i) => (i ? document : window).removeEventListener(e, handleScroll));
+    //     }
+    //     }
+    // };
 
-    function goToSection(section :any) {
-        if (scrolling.enabled) { // skip if a scroll tween is in progress
-        scrolling.disable();
-        gsap.to(window, {
-            scrollTo: {y: section, autoKill: false},
-            onComplete: scrolling.enable,
-            duration: 1
-        });
-    } 
-    }
-    useLayoutEffect(() => {
-        sections.forEach((section, i) => {
-        ScrollTrigger.create({
-            trigger: section.current,
-            start: "top bottom-=1",
-            end: "bottom top+=1",
-            onEnter: () => {goToSection(section.current),setSectionNumber(i)},
-            onEnterBack: () => {goToSection(section.current),setSectionNumber(i)}
-        });
-        })
-    })  
+    // function goToSection(section :any) {
+    //     if (scrolling.enabled) { 
+    //     scrolling.disable();
+    //     gsap.to(window, {
+    //         scrollTo: {y: section, autoKill: false},
+    //         onComplete: scrolling.enable,
+    //         duration: 1
+    //     });
+    // } 
+    // }
+    // useLayoutEffect(() => {
+    //     sections.forEach((section, i) => {
+    //     ScrollTrigger.create({
+    //         trigger: section.current,
+    //         start: "top bottom-=1",
+    //         end: "bottom top+=1",
+    //         onEnter: () => {goToSection(section.current),setSectionNumber(i)},
+    //         onEnterBack: () => {goToSection(section.current),setSectionNumber(i)}
+    //     });
+    //     })
+    // })  
 
     
     // const { section, onSectionChange, sectionNumber, setSectionNumber, targets } = props
