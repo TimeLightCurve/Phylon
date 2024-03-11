@@ -7,9 +7,7 @@ import { ScrollManager } from "./ScrollManager"
 import { useState } from "react";
 import { Menu } from "./components/Menu"
 
-interface InterfaceProps {
-  setSections: React.Dispatch<React.SetStateAction<React.RefObject<HTMLElement>[]>>;
-}
+
 
 function Experience() {
   
@@ -18,16 +16,16 @@ function Experience() {
   const [sections, setSections] = useState<React.RefObject<HTMLElement>[]>()
   return (
     <>
-    <div className=" canvaCustom w-screen h-screen fixed  ">
+    <div className=" w-screen h-screen fixed z-0 ">
       <Canvas
-        className="main-canvas"
+        className="h-screen w-screen"
         gl={{
           powerPreference: "high-performance",
           toneMapping: THREE.NoToneMapping,
         }}
         dpr={[1, 2]}
       >  
-         <OrbitControls/> 
+         
             <ScrollManager />
             <Scene sectionNumber={sectionNumber} />
       </Canvas>
