@@ -9,7 +9,7 @@ const Section = (props:any) => {
     const {children} = props
 
     return(
-        <div className={`h-[800px] w-screen max-w-screen-2xl mx-auto flex flex-col items-start justify-center  z-20`}>
+        <div className={`h-screen w-screen  mx-auto flex flex-col items-start `}>
             <section >
                 {children}
             </section>
@@ -30,9 +30,9 @@ interface Scrolling {
 export const Interface = (props:any) => {
     
     const {setSectionNumber} = props
-    const sectionRef1 = useRef <HTMLDivElement>()
-    const sectionRef2 = useRef <HTMLDivElement >()
-    const sectionRef3 = useRef <HTMLDivElement>()
+    const sectionRef1 = useRef <HTMLDivElement>(null)
+    const sectionRef2 = useRef <HTMLDivElement >(null)
+    const sectionRef3 = useRef <HTMLDivElement>(null)
 
     const sections= [sectionRef1, sectionRef2, sectionRef3]
 
@@ -76,47 +76,35 @@ export const Interface = (props:any) => {
             trigger: section.current,
             start: "top bottom-=1",
             end: "bottom top+=1",
-            onEnter: () => {goToSection(section.current),setSectionNumber(i)},
-            onEnterBack: () => {goToSection(section.current),setSectionNumber(i)}
+            onEnter: () => {goToSection(section.current),setSectionNumber(i),console.log(i);
+            },
+            onEnterBack: () => {goToSection(section.current),setSectionNumber(i),console.log(i);
+            }
         });
         })
-    })  
+    },[])  
 
 
     return(
-        <div className={`flex flex-col items-center w-screen z-20 `}>
+        <div className='flex flex-col items-center '>
 
-                <Section ref={sectionRef1} className="triggerSection" >
-                    <h1 className="triggerChild text-6xl font-extrabold leading-snug">
-                            Hi, im
-                            <br />
-                            <span className="bg-white px-1 ialic">
-                                Shayan Sh
-                            </span>
-                        </h1>
-                        <p className="text-lg text-gray-600 mt-4">
-                            Making a 3D Experience with Particles
-                            <br />
-                            learn how to build 3D apps
-                        </p>
-                        <button className=" bg-indigo-600 text-white py-6 px-8 rounded-lg font-bold text-lg mt-16">Contact me</button>
-                </Section>
-
-
-                <Section ref={sectionRef2}  className="triggerSection">
-                    <h1 className="triggerChild">Skills</h1>
-                </Section> 
-
-                <Section ref={sectionRef3}>
-                    <h1 className="triggerChild">Projects</h1>
-                </Section>
-
-
-                <Section  className="triggerSection">
-                    <h1 className="triggerChild">Contact</h1>
-                </Section>
-
+        <div ref={sectionRef1} className='   w-screen h-screen mx-auto'>
+          <section>
+            <h1 className=' text-black'> hi first box</h1>
+          </section>
         </div>
+        <div ref={sectionRef2} className='   w-screen h-screen mx-auto'>
+          <section>
+            <h1>  second box</h1>
+          </section>
+        </div>
+        <div ref={sectionRef3} className='  w-screen h-screen mx-auto'>
+          <section>
+            <h1>  third box</h1>
+          </section>
+        </div>
+
+      </div>
     )
 }
 
