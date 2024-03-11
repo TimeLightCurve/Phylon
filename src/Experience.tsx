@@ -7,33 +7,39 @@ import { ScrollManager } from "./ScrollManager"
 import { useState } from "react";
 import { Menu } from "./components/Menu"
 
+interface InterfaceProps {
+  setSections: React.Dispatch<React.SetStateAction<React.RefObject<HTMLElement>[]>>;
+}
 
 function Experience() {
   
   const [menuOpened, setMenuOpened] = useState(false)
   const [ sectionNumber, setSectionNumber ] = useState(0)
-  const [sections, setSections] = useState<HTMLElement[] | null>()
+  const [sections, setSections] = useState<React.RefObject<HTMLElement>[]>()
   return (
     <>
-      <Canvas
-        className="main-canvas"
-        gl={{
-          powerPreference: "high-performance",
-          toneMapping: THREE.NoToneMapping,
-        }}
-        dpr={[1, 2]}
-      >
-        
-        {/* <OrbitControls/> */}
-        <ScrollControls pages={4} damping={0.1}>
-            <ScrollManager sections={sections} setSectionNumber={setSectionNumber}/>
-            <Scene sectionNumber={sectionNumber} />
-            <Scroll html>
-              <Interface setSectionNumber={setSectionNumber} sections={sections} setSections={setSections} />
-            </Scroll>
-        </ScrollControls >
-      </Canvas>
-      <Menu o menuOpened={menuOpened} setMenuOpened={setMenuOpened}/>
+    <ScrollControls>
+      <div className=" canvaCustom w-screen h-screen   ">
+        <Canvas
+          className="main-canvas"
+          gl={{
+            powerPreference: "high-performance",
+            toneMapping: THREE.NoToneMapping,
+          }}
+          dpr={[1, 2]}
+        >  
+          <OrbitControls/> 
+              <ScrollManager />
+              <Scene sectionNumber={sectionNumber} />
+        </Canvas>
+      </div>
+      <Scroll html>
+        <Interface setSectionNumber={setSectionNumber}  />
+      </Scroll>
+    </ScrollControls>
+      
+      <Menu menuOpened={menuOpened} setMenuOpened={setMenuOpened}/>
+      
     </>
   );
 }
