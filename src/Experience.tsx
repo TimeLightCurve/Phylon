@@ -18,28 +18,23 @@ function Experience() {
   const [sections, setSections] = useState<React.RefObject<HTMLElement>[]>()
   return (
     <>
-    <ScrollControls>
-      <div className=" canvaCustom w-screen h-screen   ">
-        <Canvas
-          className="main-canvas"
-          gl={{
-            powerPreference: "high-performance",
-            toneMapping: THREE.NoToneMapping,
-          }}
-          dpr={[1, 2]}
-        >  
-          <OrbitControls/> 
-              <ScrollManager />
-              <Scene sectionNumber={sectionNumber} />
-        </Canvas>
-      </div>
-      <Scroll html>
-        <Interface setSectionNumber={setSectionNumber}  />
-      </Scroll>
-    </ScrollControls>
+    <div className=" canvaCustom w-screen h-screen fixed  ">
+      <Canvas
+        className="main-canvas"
+        gl={{
+          powerPreference: "high-performance",
+          toneMapping: THREE.NoToneMapping,
+        }}
+        dpr={[1, 2]}
+      >  
+         <OrbitControls/> 
+            <ScrollManager />
+            <Scene sectionNumber={sectionNumber} />
+      </Canvas>
+    </div>
       
       <Menu menuOpened={menuOpened} setMenuOpened={setMenuOpened}/>
-      
+      <Interface setSectionNumber={setSectionNumber}  />
     </>
   );
 }
