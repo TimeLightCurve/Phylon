@@ -3,15 +3,13 @@ import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger);
 import ScrollToPlugin from "gsap/ScrollToPlugin";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
-const plugins = [ScrollToPlugin];
 gsap.registerPlugin(ScrollToPlugin)
 
 const Section = (props:any) => {
     const {children} = props
 
     return(
-        <div className={`h-screen w-screen max-w-screen-2xl mx-auto flex flex-col items-start justify-center`}>
+        <div className={`h-[800px] w-screen max-w-screen-2xl mx-auto flex flex-col items-start justify-center  z-20`}>
             <section >
                 {children}
             </section>
@@ -20,51 +18,73 @@ const Section = (props:any) => {
 
 }
 
-
+interface Scrolling {
+    enabled: boolean;
+    events: string[];
+    prevent: (e: Event) => void;
+    disable: () => void;
+    enable: () => void;
+  }
 
 
 export const Interface = (props:any) => {
     
-    const {setSectionNumber, sections, setSections} = props
+    const {setSectionNumber} = props
     const sectionRef1 = useRef <HTMLDivElement>()
     const sectionRef2 = useRef <HTMLDivElement >()
     const sectionRef3 = useRef <HTMLDivElement>()
 
-    setSections([sectionRef1, sectionRef2, sectionRef3])
-
-    
+    const sections= [sectionRef1, sectionRef2, sectionRef3]
 
 
-    
-    
-    // useLayoutEffect(() => {
-        
-                   
-    //     gsap.to(
-    //     window,
-    //     {
-    //         duration: 1,
-    //         scrollTo:{y: 500},
-    //         onComplete: () => {
-    //         setSection(1),
-    //         console.log("yay")
-            
-    //     },
+    function handleScroll(e: Event) {
+        e.preventDefault();
+    }
+    const scrolling: Scrolling = {
+        enabled: true,
+        events: "scroll,wheel,touchmove,pointermove".split(","),
+        prevent: (e: Event ) => e.preventDefault(),
+        disable() {
+        if (scrolling.enabled) {
+            scrolling.enabled = false;
+            window.addEventListener("scroll", gsap.ticker.tick, {passive: true});
+            scrolling.events.forEach((e, i) => (i ? document : window).addEventListener(e, handleScroll, {passive: false}));
+        }
+        },
+        enable() {
+        if (!scrolling.enabled) {
+            scrolling.enabled = true;
+            window.removeEventListener("scroll", gsap.ticker.tick);
+            scrolling.events.forEach((e, i) => (i ? document : window).removeEventListener(e, handleScroll));
+        }
+        }
+    };
 
-    //         scrollTrigger: {
-    //         trigger: ".${kir}",
-    //         start: "top bottom",
-    //         end: "top top",
-    //         markers: true,
-    //         },
-    //     }
-    //     );
-               
+    function goToSection(section :any) {
+        if (scrolling.enabled) { 
+        scrolling.disable();
+        gsap.to(window, {
+            scrollTo: {y: section, autoKill: false},
+            onComplete: scrolling.enable,
+            duration: 1
+        });
+    } 
+    }
+    useLayoutEffect(() => {
+        sections.forEach((section, i) => {
+        ScrollTrigger.create({
+            trigger: section.current,
+            start: "top bottom-=1",
+            end: "bottom top+=1",
+            onEnter: () => {goToSection(section.current),setSectionNumber(i)},
+            onEnterBack: () => {goToSection(section.current),setSectionNumber(i)}
+        });
+        })
+    })  
 
-    //   });
 
     return(
-        <div className={`flex flex-col items-center w-screen`}>
+        <div className={`flex flex-col items-center w-screen z-20 `}>
 
                 <Section ref={sectionRef1} className="triggerSection" >
                     <h1 className="triggerChild text-6xl font-extrabold leading-snug">
@@ -83,7 +103,7 @@ export const Interface = (props:any) => {
                 </Section>
 
 
-                <Section ref={sectionRef2}  className="kir triggerSection">
+                <Section ref={sectionRef2}  className="triggerSection">
                     <h1 className="triggerChild">Skills</h1>
                 </Section> 
 
