@@ -20,7 +20,7 @@ function Experience(props :prop) {
     <>
     <div className=" w-screen h-screen fixed z-0 ">
       <Canvas
-        className="h-screen w-screen bg-black"
+        className="h-screen w-screen"
         gl={{
           powerPreference: "high-performance",
           toneMapping: THREE.NoToneMapping,
