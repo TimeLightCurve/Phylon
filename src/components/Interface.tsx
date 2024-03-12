@@ -1,22 +1,11 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import {  useLayoutEffect, useRef } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 gsap.registerPlugin(ScrollTrigger);
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 gsap.registerPlugin(ScrollToPlugin)
 
-const Section = (props:any) => {
-    const {children} = props
 
-    return(
-        <div className={`h-screen w-screen  mx-auto flex flex-col items-start `}>
-            <section >
-                {children}
-            </section>
-        </div>
-    )
-
-}
 
 interface Scrolling {
     enabled: boolean;
@@ -25,11 +14,13 @@ interface Scrolling {
     disable: () => void;
     enable: () => void;
   }
+  type properties = {
+    changeModel: (current: number) => void
+  }
 
-
-export const Interface = (props:any) => {
+export const Interface = (props:properties) => {
     
-    const {setSectionNumber} = props
+    const { changeModel} = props
     const sectionRef1 = useRef <HTMLDivElement>(null)
     const sectionRef2 = useRef <HTMLDivElement >(null)
     const sectionRef3 = useRef <HTMLDivElement>(null)
@@ -76,9 +67,9 @@ export const Interface = (props:any) => {
             trigger: section.current,
             start: "top bottom-=1",
             end: "bottom top+=1",
-            onEnter: () => {goToSection(section.current),setSectionNumber(i),console.log(i);
+            onEnter: () => {goToSection(section.current),changeModel(i),console.log(i);
             },
-            onEnterBack: () => {goToSection(section.current),setSectionNumber(i),console.log(i);
+            onEnterBack: () => {goToSection(section.current),changeModel(i),console.log(i);
             }
         });
         })
@@ -107,23 +98,3 @@ export const Interface = (props:any) => {
       </div>
     )
 }
-
-// const AboutSection = () => {
-//     return(
-//         <Section>
-//             <h1 className="text-6xl font-extrabold leading-snug">
-//                     Hi, im
-//                     <br />
-//                     <span className="bg-white px-1 ialic">
-//                         Shayan Sh
-//                     </span>
-//                 </h1>
-//                 <p className="text-lg text-gray-600 mt-4">
-//                     Making a 3D Experience with Particles
-//                     <br />
-//                     learn how to build 3D apps
-//                 </p>
-//                 <button className=" bg-indigo-600 text-white py-6 px-8 rounded-lg font-bold text-lg mt-16">Contact me</button>
-//         </Section>
-//     )
-// }
