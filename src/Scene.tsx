@@ -52,7 +52,7 @@ type logoResult = GLTF & {
 // };
 
 type properties = {
-  sectionNumber: number;
+  current: number;
 };
 
 type R3FPointsFX = {
@@ -64,7 +64,7 @@ type R3FPointsFX = {
 }
 
 
-function Scene({sectionNumber}:properties) {
+function Scene({current}:properties) {
 
   const logo = useGLTF("logo.glb") as logoResult;
   // const logo2 = useGLTF("logo2.glb") as logo2Result;
@@ -100,7 +100,7 @@ function Scene({sectionNumber}:properties) {
 
   const changeModel = () => {
     startTime.current = 0;
-    FBORef.current?.setModelB(sectionNumber);
+    FBORef.current?.setModelB(current);
     
     
   };
@@ -109,7 +109,7 @@ function Scene({sectionNumber}:properties) {
 
   useEffect(() => {
     changeModel();
-  }, [sectionNumber]);
+  }, [current]);
 
   useFrame((state) => {
     if (startTime.current === 0) {
@@ -120,8 +120,8 @@ function Scene({sectionNumber}:properties) {
 
     progress.current = curve.evaluate(Math.min(elapsed / duration, 1));
     if (progress.current >= 1) {
-      FBORef.current?.setModelA(sectionNumber);
-      previousIndex.current = sectionNumber;
+      FBORef.current?.setModelA(current);
+      previousIndex.current = current;
     }
 
     FBORef.current?.updateProgress(progress.current);
@@ -158,7 +158,7 @@ function Scene({sectionNumber}:properties) {
           pointSize={3.0}
           baseColor="#552674"
           modelA={previousIndex.current}
-          modelB={sectionNumber}
+          modelB={current}
           ref={FBORef}
 
         />
